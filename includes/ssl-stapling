@@ -1,0 +1,8 @@
+# https://blog.mozilla.org/security/2013/07/29/ocsp-stapling-in-firefox/
+# Send cert validity information ourselves, so the user does not have to ask the CA (who
+# then knows the user visited the website).
+# Test with openssl s_client -connect www.example.com:443 -servername www.example.com -status < /dev/null | grep OCSP
+ssl_stapling on;
+ssl_stapling_verify on;
+# Public Google DNS 8.8.8.8
+resolver 8.8.8.8;

@@ -1,0 +1,5 @@
+location /.well-known/acme-challenge/ {
+	# When running the letsencrypt client, this is the path to pass as --webroot-path
+	root /var/www/acme-challenges;
+	break;
+}

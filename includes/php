@@ -1,0 +1,3 @@
+location ~ \.php$ {
+	include includes/php-inner;
+}

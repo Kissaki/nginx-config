@@ -1,0 +1,8 @@
+# http://wiki.nginx.org/Pitfalls#Passing_Uncontrolled_Requests_to_PHP
+try_files $uri =404;
+
+include includes/fastcgi_params;
+fastcgi_index  index.php;
+
+#fastcgi_pass   127.0.0.1:9000;
+fastcgi_pass   unix:/var/run/php5-fpm.sock;

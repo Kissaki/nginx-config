@@ -1,0 +1,4 @@
+# Deny access to hidden dotfiles (beginning with '.')
+location /. {
+	deny  all;
+}

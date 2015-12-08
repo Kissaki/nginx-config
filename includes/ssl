@@ -1,0 +1,39 @@
+# nginx HTTPS doc: http://nginx.org/en/docs/http/configuring_https_servers.html
+# nginx ssl module doc: http://nginx.org/en/docs/http/ngx_http_ssl_module.html
+# Secure HTTPS Guidelines: https://www.ssllabs.com/downloads/SSL_TLS_Deployment_Best_Practices_1.3.pdf
+# Mozilla tool for configuration https://mozilla.github.io/server-side-tls/ssl-config-generator/?server=nginx-1.8.0&openssl=1.0.1f&hsts=yes&profile=intermediate
+# https://bettercrypto.org/static/applied-crypto-hardening.pdf
+# https://www.ssllabs.com/downloads/SSL_TLS_Deployment_Best_Practices.pdf
+# Test: https://www.ssllabs.com/ssltest/
+
+# For performance: Session cache, shared across workers.
+# Lifetime increased. For effect, general keep-alive should already be enabled.
+ssl_session_cache   shared:SSL:50m;
+ssl_session_timeout  1h;
+
+# SSLv2 SSLv3 must not be supported. TLS are the successors. Use TLSv1.1 and TLSv1.2.
+# TLSv1 is secure with careful configuration, but maybe should be supported for old clients.
+# TLS > 1.0 requires openssl > 1.0 (`openssl version`) - will only work if available.
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+# Specifies that server ciphers should be preferred over client ciphers when using the SSLv3 and TLS protocols. 
+# http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_prefer_server_ciphers
+ssl_prefer_server_ciphers on;
+
+# Diffie-Hellman parameter for DHE ciphersuites, recommended 2048 bits
+# generate with openssl dhparam -out dhparam.pem 2048
+ssl_dhparam /etc/ssl/dhparam.pem;
+
+# default: HIGH:!aNULL:!MD5
+# example: ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
+# For full list see command 'openssl ciphers'
+# Value result can be checked with openssl ciphers -v '<value>'
+#ssl_ciphers  DHE-RSA-AES256-SHA:DHE-DSS-AES256-SHA:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA;
+#	ssl_ciphers  HIGH:!aNULL:!MD5:!DSS:!RC4;
+
+# bettercrypto cryptohardening recommendation
+#ssl_ciphers 'EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH:+CAMELLIA256:+AES256:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!ECDSA:CAMELLIA256-SHA:AES256-SHA:CAMELLIA128-SHA:AES128-SHA';
+# Mozilla tool intermediate (compatible to older clients)
+#ssl_ciphers 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA';
+# Mozilla tool modern
+ssl_ciphers 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK';

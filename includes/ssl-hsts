@@ -1,0 +1,11 @@
+# https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
+# Instruct browsers to only interact with HTTPS
+# Note: Using values lower than 6 months makes SSL Labs check complain
+#add_header Strict-Transport-Security max-age=10000;
+# one month
+#add_header Strict-Transport-Security max-age=2628000;
+# six months
+add_header Strict-Transport-Security max-age=15768000;
+
+# use this only if all subdomains support HTTPS!
+# add_header Strict-Transport-Security "max-age=15768000; includeSubDomains";
