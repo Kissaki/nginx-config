@@ -10,6 +10,12 @@ sites-available contains an example configuration for a subdomain,
 including HTTP to HTTPS rewrite, redirection, and seo-url for some
 PHP software.
 
+The example.org is an example configuration featuring various of these,
+while the example.com configuration is a minimal configuration.
+This makes the latter configuration a good default for new pages,
+while the first is a good reference if you are looking to do something
+specific.
+
 Now that [letsencrypt](http://letsencrypt.org/) is in open beta, a configuration file
 `acme-challenge` is also included to map the challenge url path to
 a common location (the challenge is temporary, and has nothing to do
