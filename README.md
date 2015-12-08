@@ -16,7 +16,7 @@ This makes the latter configuration a good default for new pages,
 while the first is a good reference if you are looking to do something
 specific.
 
-Now that [letsencrypt](http://letsencrypt.org/) is in open beta, a configuration file
+Now that [Let’s Encrypt](https://letsencrypt.org/) is in open beta, a configuration file
 `acme-challenge` is also included to map the challenge url path to
 a common location (the challenge is temporary, and has nothing to do
 with the actual website).
